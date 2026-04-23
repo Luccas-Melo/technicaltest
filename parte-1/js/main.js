@@ -11,7 +11,80 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollReveal();
     initInfinityScroll();
     initNavScroll();
+    initCarouselTouch();
 });
+
+function initCarouselTouch() {
+    const carousel = document.querySelector('.carousel-container');
+    if (!carousel) return;
+    
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let autoPlayInterval;
+    
+    // Auto-play simples
+    function startAutoPlay() {
+        autoPlayInterval = setInterval(() => {
+            const cardWidth = carousel.firstElementChild.offsetWidth + 24;
+            const maxScroll = carousel.scrollWidth - carousel.offsetWidth;
+            
+            if (carousel.scrollLeft >= maxScroll - 1) {
+                carousel.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+            }
+        }, 4000);
+    }
+    
+    function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+    }
+    
+    // Start autoplay
+    setTimeout(startAutoPlay, 2000);
+    
+    // Pause on hover/touch
+    carousel.addEventListener('mouseenter', stopAutoPlay);
+    carousel.addEventListener('mouseleave', startAutoPlay);
+    carousel.addEventListener('touchstart', stopAutoPlay);
+    carousel.addEventListener('touchend', () => setTimeout(startAutoPlay, 1000));
+    
+    // Mouse drag
+    carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+        carousel.style.cursor = 'grabbing';
+        carousel.style.scrollBehavior = 'auto';
+        stopAutoPlay();
+    });
+    
+    carousel.addEventListener('mouseleave', () => {
+        isDown = false;
+        carousel.style.cursor = 'grab';
+        carousel.style.scrollBehavior = 'smooth';
+        startAutoPlay();
+    });
+    
+    carousel.addEventListener('mouseup', () => {
+        isDown = false;
+        carousel.style.cursor = 'grab';
+        carousel.style.scrollBehavior = 'smooth';
+        startAutoPlay();
+    });
+    
+    carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        carousel.scrollLeft = scrollLeft - walk;
+    });
+    
+    carousel.style.cursor = 'grab';
+    carousel.style.scrollBehavior = 'smooth';
+}
 
 /**
  * Toggle glassmorphism state on the nav when the user scrolls.
@@ -224,6 +297,34 @@ function showNotification(message, type = 'info') {
         notification.style.transform = 'translateX(120%)';
         setTimeout(() => notification.remove(), 300);
     }, 3000);
+}
+
+/**
+ * Case Studies Carousel - Minimal drag support
+ */
+function initCaseStudiesCarousel() {
+    const carousel = document.querySelector('.carousel-container');
+    if (!carousel) return;
+
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX;
+        scrollLeft = carousel.scrollLeft;
+    });
+
+    carousel.addEventListener('mouseleave', () => isDown = false);
+    carousel.addEventListener('mouseup', () => isDown = false);
+
+    carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        const x = e.pageX;
+        const walk = (x - startX) * 1.5;
+        carousel.scrollLeft = scrollLeft - walk;
+    });
 }
 
 // Export functions for global access

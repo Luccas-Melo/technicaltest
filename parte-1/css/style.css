@@ -267,6 +267,7 @@
     flex-direction: column;
     position: relative;
     overflow: visible;
+    min-height: auto;
 }
 
 @media (min-width: 768px) {
@@ -274,6 +275,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+        min-height: 250px;
     }
 }
 
@@ -283,9 +285,10 @@
     top: -20px;
     bottom: -20px;
     display: none;
+    pointer-events: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
     .cta-illustration {
         display: block;
     }
@@ -294,6 +297,28 @@
 .cta-illustration svg {
     height: 100%;
     width: auto;
+    max-width: 400px;
+}
+
+@media (max-width: 767px) {
+    .cta-section {
+        padding: 2rem;
+        border-radius: 30px;
+    }
+    
+    .cta-section .max-w-xl {
+        max-width: 100% !important;
+        z-index: 10;
+        position: relative;
+    }
+    
+    .cta-section h3 {
+        font-size: 1.75rem !important;
+    }
+    
+    .cta-section p {
+        font-size: 1rem !important;
+    }
 }
 
 /* Case Studies Section */
@@ -332,12 +357,24 @@
     opacity: 1 !important;
     visibility: visible !important;
     transform: none !important;
+    border-top-left-radius: 45px;
+    border-top-right-radius: 45px;
 }
 
-@media (min-width: 768px) {
-    .footer {
-        border-top-left-radius: 45px;
-        border-top-right-radius: 45px;
+@media (max-width: 1023px) {
+    .footer .grid.md\:grid-cols-2 > div:last-child {
+        flex-direction: column !important;
+    }
+    
+    .footer .grid.md\:grid-cols-2 > div:last-child input {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .footer .grid.md\:grid-cols-2 > div:last-child button {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.9rem;
     }
 }
 
@@ -808,5 +845,78 @@ footer .flex.gap-4 > div:hover {
     .cta-section {
         padding: 1.5rem;
         border-radius: 30px;
+    }
+}
+
+/* Case Studies Carousel - Mobile & Tablet */
+@media (max-width: 1023px) {
+    #cases .bg-dark {
+        padding: 1.5rem 0 !important;
+        border-radius: 24px !important;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Overlay gradiente nas laterais */
+    #cases .bg-dark::before,
+    #cases .bg-dark::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 30px;
+        z-index: 10;
+        pointer-events: none;
+    }
+    
+    #cases .bg-dark::before {
+        left: 0;
+        background: linear-gradient(to right, #191A23, transparent);
+    }
+    
+    #cases .bg-dark::after {
+        right: 0;
+        background: linear-gradient(to left, #191A23, transparent);
+    }
+    
+    .carousel-container {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding: 0 20px;
+        gap: 16px;
+        cursor: grab;
+    }
+    
+    .carousel-container::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .carousel-container:active {
+        cursor: grabbing;
+    }
+    
+    #cases .min-w-\[70vw\] {
+        min-width: 70vw !important;
+        max-width: 70vw !important;
+        flex-shrink: 0 !important;
+        scroll-snap-align: center;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-radius: 16px !important;
+        padding: 1.25rem !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    #cases .text-gray-300 {
+        font-size: 0.9rem !important;
+        line-height: 1.5 !important;
+    }
+    
+    #cases .case-studies-link {
+        font-size: 0.85rem !important;
     }
 }
