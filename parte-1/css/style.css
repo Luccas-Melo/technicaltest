@@ -211,29 +211,34 @@
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .learn-more svg,
 .learn-more img {
     width: 41px;
     height: 41px;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                filter 0.8s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: transform, filter;
+    transform: rotate(0deg) scale(1);
 }
 
 .learn-more:hover svg,
 .learn-more:hover img {
-    transform: rotate(-45deg) scale(1.1);
+    transform: rotate(30deg) scale(1.1) !important;
 }
 
 .learn-more:hover span {
-    transform: translateX(4px);
+    transform: translateX(10px);
+    letter-spacing: 0.02em;
 }
 
 .learn-more span {
     font-size: 1.25rem;
     font-weight: 500;
-    transition: transform 0.3s ease;
+    transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), 
+                letter-spacing 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Arrow Icon Circle */
@@ -404,8 +409,18 @@
 }
 
 /* Global Transitions for Smoother Hovers */
-a, button, .service-card, .nav-link, .btn-primary, .btn-outline {
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+a, button, .service-card, .nav-link, .btn-primary, .btn-outline, input, textarea {
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Smooth hover for all interactive elements */
+.learn-more, .case-studies-link, .footer-link, .nav-link, 
+.btn-primary, .btn-outline, button, .service-card,
+footer .flex.gap-4 > div {
+    transition-property: transform, background-color, color, box-shadow, opacity, border-color;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    cursor: pointer;
 }
 
 /* Navigation */
@@ -668,18 +683,24 @@ header button { animation: fadeInUp 0.9s 0.3s ease both; }
 }
 h2.bg-lime:hover { transform: rotate(-2deg) scale(1.03); }
 
-/* Service card hover lift */
+/* Service card hover lift - ultra smooth */
 .service-card {
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), 
+                box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: transform, box-shadow;
 }
 .service-card:hover {
     transform: translateY(-10px);
     box-shadow: 0px 15px 0px var(--color-dark);
 }
 
-/* Button lift */
+/* Button lift - ultra smooth */
 button, .btn-primary, .btn-outline {
-    transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                background-color 0.4s ease, 
+                color 0.4s ease, 
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    will-change: transform, box-shadow;
 }
 button:hover, .btn-primary:hover, .btn-outline:hover {
     transform: translateY(-3px);
@@ -691,13 +712,17 @@ button:hover, .btn-primary:hover, .btn-outline:hover {
     animation: floatY 5s ease-in-out infinite;
 }
 
-/* Footer social icons */
+/* Footer social icons - ultra smooth */
 footer .flex.gap-4 > div {
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), 
+                background-color 0.4s ease,
+                box-shadow 0.4s ease !important;
+    will-change: transform;
 }
 footer .flex.gap-4 > div:hover {
-    transform: translateY(-4px) rotate(-6deg);
+    transform: translateY(-6px) rotate(-8deg) scale(1.05);
     background-color: var(--color-lime);
+    box-shadow: 0 8px 20px rgba(185, 255, 102, 0.4);
 }
 
 /* Respect reduced motion */
@@ -712,19 +737,42 @@ footer .flex.gap-4 > div:hover {
 /* ---------- Responsive Adjustments ---------- */
 @media (max-width: 768px) {
     .service-card {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 2rem;
-        gap: 2rem;
+        display: grid;
+        grid-template-areas: 
+            "title image"
+            "link image";
+        grid-template-columns: 1fr auto;
+        padding: 2.5rem;
+        gap: 1.5rem;
+        min-height: auto;
+    }
+
+    .service-card > .flex.flex-col {
+        grid-area: title;
+        display: contents; /* Allow children to be placed in grid */
+    }
+
+    .service-card .card-title {
+        grid-area: title;
+        font-size: 1.6rem;
+        width: fit-content;
+    }
+
+    .service-card .learn-more {
+        grid-area: link;
+        align-self: end;
+    }
+
+    .service-card .learn-more span {
+        display: none; /* Hide 'Learn more' text on mobile as per design */
     }
 
     .service-card > img {
-        max-width: 60%;
-        align-self: flex-end;
-    }
-
-    .service-card .flex.flex-col.gap-20 {
-        gap: 2.5rem;
+        grid-area: image;
+        max-width: 150px;
+        width: 100%;
+        height: auto;
+        align-self: center;
     }
 
     .cta-section {
@@ -740,20 +788,21 @@ footer .flex.gap-4 > div:hover {
     h3.text-3xl {
         font-size: 2rem;
     }
-
-    .card-title {
-        font-size: 1.5rem;
-    }
 }
 
 @media (max-width: 480px) {
     .service-card {
         padding: 1.5rem;
         border-radius: 30px;
+        gap: 1rem;
     }
 
     .service-card > img {
-        max-width: 80%;
+        max-width: 120px;
+    }
+
+    .service-card .card-title {
+        font-size: 1.4rem;
     }
 
     .cta-section {

@@ -61,14 +61,16 @@
                     <animateTransform attributeName="transform" type="rotate" from="0 311 445" to="-360 311 445" dur="14s" repeatCount="indefinite" />
                     <path d="M310.999 432.535L328.6 427.349L323.464 445L328.6 462.601L310.999 457.465L293.348 462.601L298.533 445L293.348 427.349L310.999 432.535Z" fill="black" stroke="white" stroke-miterlimit="10" />
                 </g>
-                <g class="hero-star-2">
-                    <animateTransform attributeName="transform" type="rotate" from="0 107 362" to="360 107 362" dur="16s" repeatCount="indefinite" />
-                    <path d="M124.947 345.509L156.423 362.659L124.947 379.947L107.729 411.354L90.5097 379.947L59.0337 362.659L90.5097 345.509L107.729 313.964L124.947 345.509Z" fill="black" stroke="white" stroke-miterlimit="10" />
-                </g>
-                <g class="hero-main-shapes">
-                    <animateTransform attributeName="transform" type="rotate" from="0 316 252" to="360 316 252" dur="28s" repeatCount="indefinite" />
+                <g class="hero-ring hero-ring--outer">
+                    <animateTransform attributeName="transform" type="rotate" values="0 310 250; 360 310 250" dur="20s" repeatCount="indefinite" />
                     <path d="M345.586 201.187C414.025 238.937 472.758 278.935 512.391 313.077C532.21 330.151 547.233 345.742 556.306 358.842C560.843 365.393 563.876 371.297 565.288 376.433C566.699 381.568 566.479 385.89 564.58 389.333C562.68 392.777 559.142 395.268 554.047 396.813C548.949 398.359 542.337 398.943 534.376 398.6C518.455 397.913 497.254 393.524 472.24 385.868C422.219 370.558 357.057 342.216 288.618 304.465C220.179 266.715 161.445 226.717 121.812 192.575C101.993 175.501 86.971 159.91 77.8974 146.81C73.36 140.259 70.3264 134.355 68.9146 129.218C67.5035 124.084 67.723 119.763 69.6224 116.319C71.522 112.875 75.0605 110.384 80.1559 108.839C85.2536 107.293 91.8663 106.709 99.8276 107.052C115.748 107.739 136.949 112.128 161.963 119.784C211.983 135.094 277.146 163.436 345.586 201.187Z" stroke="black" />
+                </g>
+                <g class="hero-ring hero-ring--middle">
+                    <animateTransform attributeName="transform" type="rotate" values="0 310 250; -360 310 250" dur="15s" repeatCount="indefinite" />
                     <path d="M325.355 237.861C393.794 275.611 452.528 315.609 492.16 349.751C511.979 366.825 527.002 382.416 536.076 395.516C540.613 402.066 543.646 407.971 545.058 413.107C546.469 418.241 546.249 422.563 544.349 426.007C542.45 429.451 538.912 431.942 533.816 433.487C528.719 435.033 522.107 435.617 514.145 435.274C498.225 434.587 477.023 430.198 452.009 422.542C401.989 407.232 336.827 378.89 268.387 341.139C199.948 303.389 141.214 263.391 101.582 229.249C81.7626 212.175 66.7405 196.584 57.6669 183.484C53.1295 176.933 50.096 171.029 48.6841 165.892C47.273 160.758 47.4926 156.437 49.3919 152.993C51.2915 149.549 54.8301 147.057 59.9254 145.512C65.0232 143.966 71.6359 143.383 79.5971 143.726C95.5175 144.413 116.719 148.802 141.732 156.458C191.753 171.768 256.916 200.11 325.355 237.861Z" stroke="black" />
+                </g>
+                <g class="hero-ring hero-ring--inner">
+                    <animateTransform attributeName="transform" type="rotate" values="0 310 250; 360 310 250" dur="10s" repeatCount="indefinite" />
                     <path d="M305.127 274.535C373.566 312.285 432.299 352.283 471.932 386.425C491.751 403.499 506.774 419.09 515.847 432.19C520.385 438.741 523.417 444.645 524.829 449.782C526.24 454.916 526.02 459.238 524.121 462.682C522.221 466.125 518.683 468.616 513.588 470.161C508.49 471.707 501.878 472.292 493.917 471.948C477.997 471.261 456.795 466.872 431.781 459.216C381.76 443.906 316.598 415.564 248.159 377.814C179.72 340.063 120.986 300.065 81.3531 265.923C61.5341 248.849 46.512 233.258 37.4384 220.158C32.901 213.608 29.8674 207.703 28.4556 202.566C27.0445 197.433 27.2641 193.111 29.1634 189.667C31.063 186.223 34.6015 183.732 39.6969 182.187C44.7946 180.641 51.4073 180.057 59.3686 180.4C75.289 181.087 96.4902 185.476 121.504 193.132C171.524 208.442 236.687 236.784 305.127 274.535Z" stroke="black" />
                 </g>
                 <g class="hero-circles">
@@ -216,21 +218,23 @@
             <h2 class="bg-lime text-4xl font-medium px-2 rounded-md self-start md:self-auto">Case Studies</h2>
             <p class="max-w-md text-gray-700">Explore Real-Life Examples of Our Proven Success</p>
         </div>
-        <div class="bg-dark text-white rounded-[45px] p-10 md:p-16 flex flex-col md:grid md:grid-cols-3 gap-10">
-            <div class="md:pr-10 md:border-r border-gray-600">
-                <p class="mb-6 text-gray-300">For a local restaurant, we implemented a targeted PPC campaign that
-                    resulted in a 50% increase in website traffic.</p>
-                <a href="#" class="case-studies-link">Learn more ↗</a>
-            </div>
-            <div class="md:px-10 md:border-r border-gray-600">
-                <p class="mb-6 text-gray-300">For a B2B software company, we developed an SEO strategy that resulted in
-                    a first-page ranking for key keywords.</p>
-                <a href="#" class="case-studies-link">Learn more ↗</a>
-            </div>
-            <div class="md:pl-10">
-                <p class="mb-6 text-gray-300">For a national retail chain, we created a social media marketing campaign
-                    that increased followers by 25%.</p>
-                <a href="#" class="case-studies-link">Learn more ↗</a>
+        <div class="bg-dark text-white rounded-[45px] p-6 md:p-16 overflow-hidden">
+            <div class="flex flex-row overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 gap-6 md:gap-10">
+                <div class="min-w-[85vw] md:min-w-0 snap-center md:pr-10 md:border-r border-gray-600 flex flex-col justify-between">
+                    <p class="mb-6 text-gray-300">For a local restaurant, we implemented a targeted PPC campaign that
+                        resulted in a 50% increase in website traffic.</p>
+                    <a href="#" class="case-studies-link">Learn more ↗</a>
+                </div>
+                <div class="min-w-[85vw] md:min-w-0 snap-center md:px-10 md:border-r border-gray-600 flex flex-col justify-between">
+                    <p class="mb-6 text-gray-300">For a B2B software company, we developed an SEO strategy that resulted in
+                        a first-page ranking for key keywords.</p>
+                    <a href="#" class="case-studies-link">Learn more ↗</a>
+                </div>
+                <div class="min-w-[85vw] md:min-w-0 snap-center md:pl-10 flex flex-col justify-between">
+                    <p class="mb-6 text-gray-300">For a national retail chain, we created a social media marketing campaign
+                        that increased followers by 25%.</p>
+                    <a href="#" class="case-studies-link">Learn more ↗</a>
+                </div>
             </div>
         </div>
     </section>
