@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso de Python com IA</title>
+  <meta
+    name="description"
+    content="Aprenda Python do zero e construa projetos reais com IA em uma hero premium com foco em conversao."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+    :root {
+      --bg-1: #04101d;
+      --bg-2: #0a1830;
+      --panel: rgba(10, 19, 33, 0.78);
+      --panel-strong: rgba(7, 14, 25, 0.92);
+      --line: rgba(152, 182, 255, 0.16);
+      --text: #f4f7ff;
+      --muted: #afc2de;
+      --accent: #7af4c5;
+      --accent-2: #8faeff;
+      --accent-3: #ffc985;
+      --shadow: 0 26px 70px rgba(1, 6, 12, 0.34);
+      --mouse-x: 0px;
+      --mouse-y: 0px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(122, 244, 197, 0.14), transparent 24%),
+        radial-gradient(circle at 86% 16%, rgba(143, 174, 255, 0.18), transparent 26%),
+        radial-gradient(circle at 80% 72%, rgba(255, 201, 133, 0.12), transparent 20%),
+        linear-gradient(135deg, var(--bg-1) 0%, #07111e 36%, var(--bg-2) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 78px 78px;
+      mask-image: radial-gradient(circle at center, black 48%, transparent 88%);
+      pointer-events: none;
+      opacity: 0.4;
+    }
+
+    .hero-shell {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      position: relative;
+      isolation: isolate;
+    }
+
+    .hero-shell::after {
+      content: "";
+      position: absolute;
+      width: 560px;
+      height: 560px;
+      left: calc(50% + var(--mouse-x) * 0.02);
+      top: calc(45% + var(--mouse-y) * 0.02);
+      transform: translate(-30%, -30%);
+      background: radial-gradient(circle, rgba(122, 244, 197, 0.12), transparent 62%);
+      filter: blur(18px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .hero {
+      width: min(100%, 1420px);
+      display: grid;
+      grid-template-columns: 1.02fr 0.98fr;
+      grid-template-rows: auto 1fr;
+      gap: 22px 28px;
+      align-items: stretch;
+    }
+
+    .topbar,
+    .hero-copy,
+    .hero-stage {
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .topbar {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 18px 22px;
+      border-radius: 26px;
+      background: rgba(10, 20, 35, 0.56);
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      background:
+        linear-gradient(135deg, #c5ffe7, #8faeff 70%, #ffd39f),
+        linear-gradient(180deg, rgba(255,255,255,0.24), transparent);
+      position: relative;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        0 14px 28px rgba(143, 174, 255, 0.2);
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      background: rgba(5, 13, 24, 0.9);
+      border-radius: 999px;
+    }
+
+    .brand-mark::before {
+      width: 10px;
+      height: 28px;
+      left: 12px;
+      top: 9px;
+      box-shadow: 12px 0 0 rgba(5, 13, 24, 0.9);
+    }
+
+    .brand-mark::after {
+      width: 24px;
+      height: 8px;
+      left: 11px;
+      bottom: 9px;
+    }
+
+    .brand-text strong,
+    .hero-stat strong,
+    .trust-card strong,
+    .micro-proof strong {
+      display: block;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #f4f7ff;
+    }
+
+    .brand-text span,
+    .hero-stat span,
+    .trust-card span,
+    .micro-proof span,
+    .visual-caption span,
+    .offer-intro p,
+    .code-line,
+    .support-copy {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .proof-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .proof-pill,
+    .eyebrow,
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #eaf3ff;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .eyebrow::before,
+    .status-pill::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 16px rgba(122, 244, 197, 0.72);
+    }
+
+    .hero-copy {
+      background:
+        linear-gradient(180deg, rgba(16, 30, 52, 0.86), rgba(8, 18, 33, 0.94)),
+        linear-gradient(135deg, rgba(122, 244, 197, 0.08), transparent 45%);
+      border-radius: 38px 84px 38px 38px;
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 26px;
+      padding: 34px 36px 38px;
+    }
+
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at top right, rgba(143, 174, 255, 0.16), transparent 34%),
+        linear-gradient(120deg, transparent 0 54%, rgba(255,255,255,0.035) 54% 55%, transparent 55% 100%);
+      pointer-events: none;
+    }
+
+    .progress-rail {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .progress-rail::before {
+      content: "";
+      position: absolute;
+      top: 34px;
+      bottom: 34px;
+      width: 2px;
+      background: linear-gradient(180deg, rgba(122,244,197,0.14), rgba(143,174,255,0.6), rgba(255,201,133,0.2));
+    }
+
+    .rail-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(8, 15, 25, 0.92);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 0 0 10px rgba(9, 18, 31, 0.5);
+      z-index: 1;
+    }
+
+    .rail-dot.active {
+      background: radial-gradient(circle at 30% 30%, #d8ffef, #49dda7);
+      box-shadow:
+        0 0 0 10px rgba(73, 221, 167, 0.12),
+        0 0 28px rgba(73, 221, 167, 0.4);
+    }
+
+    .copy-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 11ch;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(3.2rem, 5.5vw, 6rem);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      text-wrap: balance;
+    }
+
+    .headline-base {
+      color: #eaf3ff;
+      text-shadow: 0 0 30px rgba(143, 174, 255, 0.12);
+    }
+
+    .headline-accent {
+      display: inline-block;
+      color: #07101b;
+      padding: 0.08em 0.22em;
+      border-radius: 0.28em;
+      background: linear-gradient(135deg, #c5ffe7, #90b4ff 68%, #ffd39f);
+      box-shadow: 0 12px 30px rgba(143, 174, 255, 0.16);
+      transform: rotate(-1.6deg);
+    }
+
+    .subheadline {
+      margin: 0;
+      max-width: 52ch;
+      font-size: clamp(1rem, 1.2vw, 1.18rem);
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-stat {
+      min-width: 148px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .bullet-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding: 15px 18px 15px 50px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #edf3ff;
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 18px;
+      top: 18px;
+      width: 14px;
+      height: 14px;
+      border-radius: 5px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 18px rgba(122, 244, 197, 0.18);
+    }
+
+    .actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .btn {
+      min-height: 58px;
+      padding: 0 22px;
+      border-radius: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 800;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease,
+        background 180ms ease;
+      will-change: transform;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 22px 38px rgba(2, 7, 16, 0.28);
+    }
+
+    .btn-primary {
+      color: #05111a;
+      background: linear-gradient(135deg, #c8ffe9 0%, #7af4c5 40%, #96b1ff 100%);
+      border: 1px solid rgba(255,255,255,0.36);
+      box-shadow: 0 16px 30px rgba(122, 244, 197, 0.14);
+    }
+
+    .btn-secondary {
+      color: #eff4ff;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 14px 24px rgba(4, 9, 17, 0.16);
+    }
+
+    .micro-proof-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .micro-proof {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.05);
+      min-width: 160px;
+    }
+
+    .hero-stage {
+      background:
+        linear-gradient(160deg, rgba(13, 24, 43, 0.92), rgba(6, 12, 23, 0.96)),
+        linear-gradient(120deg, rgba(143, 174, 255, 0.08), transparent 55%);
+      border-radius: 88px 38px 38px 38px;
+      padding: 26px;
+    }
+
+    .hero-stage::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 70px 26px 26px 26px;
+      border: 1px solid rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    .stage-grid {
+      height: 100%;
+      min-height: 640px;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      grid-template-rows: auto auto 1fr;
+      gap: 16px;
+      position: relative;
+      transform-style: preserve-3d;
+    }
+
+    .offer-strip,
+    .code-panel,
+    .offer-panel,
+    .curve-map,
+    .community-panel,
+    .floating-chip {
+      position: relative;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      box-shadow: 0 18px 45px rgba(2, 8, 18, 0.24);
+      backdrop-filter: blur(16px);
+      overflow: hidden;
+    }
+
+    .offer-strip {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 18px 20px;
+      border-radius: 24px;
+    }
+
+    .offer-strip::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(122,244,197,0), rgba(122,244,197,0.88), rgba(143,174,255,0));
+    }
+
+    .offer-intro strong,
+    .curve-map h2,
+    .offer-panel h2,
+    .community-panel h2 {
+      display: block;
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+      color: #f2f6ff;
+    }
+
+    .offer-intro p,
+    .curve-map p,
+    .community-panel p {
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    .code-panel {
+      padding: 22px;
+      border-radius: 32px;
+      background:
+        linear-gradient(180deg, rgba(13, 27, 48, 0.95), rgba(7, 14, 25, 0.97)),
+        linear-gradient(120deg, rgba(143, 174, 255, 0.12), transparent 55%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transform: translateZ(30px);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .window-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .window-dots span:nth-child(1) { background: #ff8e82; }
+    .window-dots span:nth-child(2) { background: #ffd16d; }
+    .window-dots span:nth-child(3) { background: #7af4c5; }
+
+    .code-block {
+      display: grid;
+      gap: 10px;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .code-line {
+      position: relative;
+      padding-left: 22px;
+      white-space: nowrap;
+    }
+
+    .code-line::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.52em;
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      opacity: 0.84;
+    }
+
+    .code-line.emphasis {
+      color: #eef5ff;
+    }
+
+    .progress-track {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 78%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7af4c5, #8faeff, #ffc985);
+      animation: pulseWidth 5.6s ease-in-out infinite;
+    }
+
+    .visual-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .offer-panel {
+      padding: 22px;
+      border-radius: 28px;
+      display: grid;
+      gap: 16px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 201, 133, 0.12), transparent 38%),
+        rgba(255,255,255,0.045);
+      transform: translateY(36px) translateZ(42px);
+      align-self: start;
+    }
+
+    .offer-mini-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .offer-mini-list div {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(5, 11, 21, 0.42);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #edf3ff;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .curve-map {
+      padding: 22px;
+      border-radius: 28px;
+      align-self: end;
+    }
+
+    .curve-visual {
+      height: 94px;
+      margin-top: 18px;
+    }
+
+    .curve-visual svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .curve-visual .node {
+      fill: #09111d;
+      stroke: rgba(255,255,255,0.14);
+      stroke-width: 1.5;
+    }
+
+    .curve-visual .node.active {
+      fill: #49dda7;
+      filter: drop-shadow(0 0 16px rgba(122,244,197,0.66));
+    }
+
+    .community-panel {
+      padding: 20px;
+      border-radius: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      background:
+        linear-gradient(180deg, rgba(11, 23, 41, 0.86), rgba(7, 13, 23, 0.96));
+      transform: translateY(-20px) translateZ(24px);
+    }
+
+    .community-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .trust-card {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .support-copy {
+      line-height: 1.6;
+    }
+
+    .floating-chip {
+      position: absolute;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(10, 22, 38, 0.72);
+      color: #edf4ff;
+      font-size: 0.88rem;
+      font-weight: 700;
+      animation: drift 7s ease-in-out infinite;
+    }
+
+    .floating-chip::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ffd39f, #7af4c5);
+      box-shadow: 0 0 14px rgba(255, 211, 159, 0.45);
+    }
+
+    .chip-one {
+      top: 122px;
+      right: 44px;
+      animation-delay: -1.2s;
+    }
+
+    .chip-two {
+      left: -18px;
+      bottom: 168px;
+      animation-delay: -3.4s;
+    }
+
+    .chip-three {
+      right: 72px;
+      bottom: 48px;
+      animation-delay: -2.2s;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity 720ms cubic-bezier(.22,1,.36,1),
+        transform 720ms cubic-bezier(.22,1,.36,1);
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    [data-depth] {
+      transition: transform 220ms ease;
+      will-change: transform;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -10px, 0); }
+    }
+
+    @keyframes pulseWidth {
+      0%, 100% { width: 78%; }
+      50% { width: 84%; }
+    }
+
+    @media (max-width: 1120px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy,
+      .hero-stage {
+        border-radius: 34px;
+      }
+
+      .hero-stage::before {
+        border-radius: 24px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .hero-shell {
+        padding: 18px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .proof-row {
+        justify-content: flex-start;
+      }
+
+      .hero-copy {
+        grid-template-columns: 1fr;
+        padding: 24px;
+      }
+
+      .progress-rail {
+        flex-direction: row;
+        gap: 18px;
+        padding: 0;
+      }
+
+      .progress-rail::before {
+        top: 50%;
+        left: 28px;
+        right: 28px;
+        bottom: auto;
+        width: auto;
+        height: 2px;
+        transform: translateY(-50%);
+      }
+
+      .stage-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto auto;
+        min-height: auto;
+      }
+
+      .offer-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .offer-panel,
+      .community-panel {
+        transform: none;
+      }
+
+      .floating-chip {
+        position: relative;
+        inset: auto;
+      }
+
+      .chip-two,
+      .chip-three {
+        display: none;
+      }
+
+      .community-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+
+      [data-reveal] {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero-shell">
+    <section class="hero" aria-label="Hero da landing page do curso">
+      <div class="topbar" data-reveal>
+        <div class="brand-lockup">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div class="brand-text">
+            <strong>Python Builder</strong>
+            <span>Formacao pratica para entrar em tecnologia com portfolio</span>
+          </div>
+        </div>
+
+        <div class="proof-row">
+          <span class="proof-pill">+20.000 alunos</span>
+          <span class="proof-pill">Python + IA desde o modulo 1</span>
+          <span class="proof-pill">Certificado reconhecido</span>
+        </div>
+      </div>
+
+      <div class="hero-copy" data-reveal style="transition-delay: 60ms;">
+        <div class="progress-rail" aria-hidden="true">
+          <span class="rail-dot active"></span>
+          <span class="rail-dot"></span>
+          <span class="rail-dot active"></span>
+          <span class="rail-dot"></span>
+        </div>
+
+        <div class="copy-content">
+          <span class="eyebrow">Aprendizado em construcao progressiva</span>
+
+          <h1>
+            <span class="headline-base">Aprenda Python do zero</span>
+            <span class="headline-base">e construa</span>
+            <span class="headline-accent">projetos reais com IA</span>
+          </h1>
+
+          <p class="subheadline">
+            O curso mais prático do Brasil para quem quer entrar em tecnologia sem enrolação
+          </p>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <strong>+40 horas</strong>
+              <span>conteudo direto ao ponto</span>
+            </div>
+            <div class="hero-stat">
+              <strong>Modulo 1</strong>
+              <span>ja com projeto usando IA</span>
+            </div>
+            <div class="hero-stat">
+              <strong>Comunidade ativa</strong>
+              <span>apoio para manter ritmo</span>
+            </div>
+          </div>
+
+          <ul class="bullet-list">
+            <li>+40 horas de conteúdo direto ao ponto;</li>
+            <li>Projetos com Python + IA desde o módulo 1;</li>
+            <li>Suporte da comunidade com +20.000 alunos;</li>
+            <li>Certificado reconhecido pelo mercado.</li>
+          </ul>
+
+          <div class="actions">
+            <a class="btn btn-primary" href="#comecar">Quero começar agora</a>
+            <a class="btn btn-secondary" href="#aprender">Ver o que vou aprender</a>
+          </div>
+
+          <div class="micro-proof-row">
+            <div class="micro-proof">
+              <strong>Promessa clara</strong>
+              <span>voce aprende e publica algo concreto</span>
+            </div>
+            <div class="micro-proof">
+              <strong>Entrada acessivel</strong>
+              <span>feito para quem esta saindo do zero</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stage" data-reveal style="transition-delay: 130ms;">
+        <div class="stage-grid" id="stage-grid">
+          <div class="offer-strip" data-depth="12">
+            <div class="offer-intro">
+              <strong>Uma hero que vende logo de cara</strong>
+              <p>Proposta, prova, progresso e CTA convivendo no primeiro viewport sem parecer um template de SaaS.</p>
+            </div>
+            <span class="status-pill">progresso construido na pratica</span>
+          </div>
+
+          <article class="code-panel" data-depth="24">
+            <div>
+              <div class="panel-head">
+                <div class="window-dots" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span class="status-pill">Modulo 1 em acao</span>
+              </div>
+
+              <div class="code-block" aria-hidden="true">
+                <div class="code-line">import openai</div>
+                <div class="code-line">dados = organizar("python")</div>
+                <div class="code-line emphasis">projeto = construir(dados, ia=True)</div>
+                <div class="code-line">deploy = publicar(projeto)</div>
+              </div>
+            </div>
+
+            <div>
+              <div class="progress-track">
+                <span class="code-line emphasis" style="padding-left:0;">Avanco da jornada</span>
+                <div class="progress-bar" aria-hidden="true">
+                  <div class="progress-fill"></div>
+                </div>
+              </div>
+
+              <div class="visual-caption">
+                <span>Da logica ao portfolio</span>
+                <span>Python + IA aplicados</span>
+              </div>
+            </div>
+          </article>
+
+          <aside class="offer-panel" data-depth="30">
+            <h2>Oferta clara, sem enrolacao</h2>
+            <p class="support-copy">
+              Em vez de uma promessa vaga, a hero mostra o que importa: voce entra, aprende do zero e constroi projetos reais com IA ao longo do caminho.
+            </p>
+
+            <div class="offer-mini-list">
+              <div>Python para iniciantes com execucao passo a passo.</div>
+              <div>Projetos reais para portfolio e experiencia pratica.</div>
+              <div>IA integrada ao fluxo para voce sair atualizado.</div>
+            </div>
+
+            <div class="actions">
+              <a class="btn btn-primary" href="#comecar">Quero começar agora</a>
+              <a class="btn btn-secondary" href="#aprender">Ver o que vou aprender</a>
+            </div>
+          </aside>
+
+          <article class="curve-map" data-depth="18">
+            <h2>Construcao progressiva</h2>
+            <p>Uma curva de aprendizado que sobe com clareza, sem pular etapas nem prender voce na teoria.</p>
+
+            <div class="curve-visual" aria-hidden="true">
+              <svg viewBox="0 0 320 94" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="curveStroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#7af4c5"/>
+                    <stop offset="55%" stop-color="#8faeff"/>
+                    <stop offset="100%" stop-color="#ffc985"/>
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M10 80 C70 82, 86 72, 124 56 S192 30, 230 22 S289 16, 310 12"
+                  fill="none"
+                  stroke="url(#curveStroke)"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                />
+                <circle class="node" cx="10" cy="80" r="7"></circle>
+                <circle class="node" cx="124" cy="56" r="7"></circle>
+                <circle class="node active" cx="230" cy="22" r="8"></circle>
+                <circle class="node active" cx="310" cy="12" r="8"></circle>
+              </svg>
+            </div>
+          </article>
+
+          <aside class="community-panel" data-depth="22">
+            <div>
+              <h2>Comunidade que vira alavanca</h2>
+              <p>Voce nao fica travado sozinho. A hero sinaliza suporte, prova social e continuidade de progresso.</p>
+            </div>
+
+            <div class="community-stats">
+              <div class="trust-card">
+                <strong>+20.000</strong>
+                <span>alunos em movimento</span>
+              </div>
+              <div class="trust-card">
+                <strong>+40h</strong>
+                <span>conteudo aplicado</span>
+              </div>
+            </div>
+
+            <div class="support-copy">Certificado reconhecido e uma trilha pensada para transformar estudo em entregas reais.</div>
+          </aside>
+
+          <div class="floating-chip chip-one" data-depth="34">Python + IA desde o comeco</div>
+          <div class="floating-chip chip-two" data-depth="18">Projetos que viram portfolio</div>
+          <div class="floating-chip chip-three" data-depth="26">Certificado reconhecido</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const reveals = document.querySelectorAll("[data-reveal]");
+
+    const revealElements = () => {
+      reveals.forEach((element, index) => {
+        window.setTimeout(() => {
+          element.classList.add("is-visible");
+        }, 120 + index * 120);
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", revealElements, { once: true });
+    } else {
+      revealElements();
+    }
+
+    const root = document.documentElement;
+    const hero = document.querySelector(".hero");
+    const depths = document.querySelectorAll("[data-depth]");
+
+    const animateDepth = (event) => {
+      const bounds = hero.getBoundingClientRect();
+      const relX = event.clientX - bounds.left - bounds.width / 2;
+      const relY = event.clientY - bounds.top - bounds.height / 2;
+
+      root.style.setProperty("--mouse-x", `${relX}px`);
+      root.style.setProperty("--mouse-y", `${relY}px`);
+
+      depths.forEach((item) => {
+        const depth = Number(item.dataset.depth || 0);
+        const moveX = relX / bounds.width * depth;
+        const moveY = relY / bounds.height * depth;
+        item.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+      });
+    };
+
+    const resetDepth = () => {
+      root.style.setProperty("--mouse-x", "0px");
+      root.style.setProperty("--mouse-y", "0px");
+      depths.forEach((item) => {
+        item.style.transform = "";
+      });
+    };
+
+    hero.addEventListener("pointermove", animateDepth);
+    hero.addEventListener("pointerleave", resetDepth);
+  </script>
+</body>
+</html>

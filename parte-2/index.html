@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pyflow — Aprenda Python do zero e construa com IA</title>
+<meta name="description" content="O curso mais prático do Brasil para aprender Python e construir projetos reais com IA, sem enrolação." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: hsl(240 6% 4.5%);
+    --fg: hsl(60 9% 96%);
+    --fg-muted: hsl(60 5% 72%);
+    --fg-faint: hsl(60 4% 52%);
+    --hairline: hsl(60 4% 18%);
+    --hairline-strong: hsl(60 4% 32%);
+    --accent-warm: hsl(45 30% 88%);
+    --pulse: hsl(150 65% 65%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--fg);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  body{min-height:100vh;overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+
+  .page{position:relative;display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
+
+  /* Camada artística */
+  .art{position:absolute;inset:0;pointer-events:none}
+  .art-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:auto}
+  .vignette{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 50%, transparent 30%, hsl(240 6% 4.5% / .85) 80%)}
+  .left-gradient{position:absolute;inset:0 auto 0 0;width:55%;background:linear-gradient(to right, hsl(240 6% 4.5% / .85), transparent)}
+
+  /* Header */
+  header{position:relative;z-index:10;width:100%}
+  .container{margin:0 auto;width:100%;max-width:1320px;padding:0 24px}
+  @media (min-width:768px){.container{padding:0 48px}}
+  .header-inner{display:flex;align-items:center;justify-content:space-between;padding-top:28px}
+  .brand{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;letter-spacing:-.02em}
+  .brand .dot{display:inline-block;width:6px;height:6px;border-radius:999px;background:var(--fg)}
+  .meta{display:none;align-items:center;gap:24px;font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--fg-faint);font-variant-numeric:tabular-nums}
+  .meta .sep{height:1px;width:24px;background:currentColor;opacity:.4}
+  @media (min-width:640px){.meta{display:flex}}
+
+  /* Main */
+  main{position:relative;z-index:10;display:flex;flex:1;flex-direction:column}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;width:100%;padding-top:48px;padding-bottom:48px;flex:1}
+  @media (min-width:768px){.grid{padding-top:64px;padding-bottom:64px}}
+
+  .col-headline{grid-column:1 / -1;display:flex;flex-direction:column;justify-content:center}
+  @media (min-width:768px){.col-headline{grid-column:1 / span 6}}
+
+  .eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:24px;font-size:11px;text-transform:uppercase;letter-spacing:.22em;color:var(--fg-faint)}
+  .eyebrow .line{display:inline-block;height:1px;width:32px;background:currentColor}
+
+  h1{font-weight:600;font-size:44px;line-height:.98;letter-spacing:-.04em}
+  @media (min-width:640px){h1{font-size:60px}}
+  @media (min-width:768px){h1{font-size:72px}}
+  @media (min-width:1024px){h1{font-size:84px}}
+  h1 em{font-style:normal;font-weight:400;color:var(--fg-muted)}
+  h1 .soft{font-weight:400;color:var(--fg-muted)}
+  h1 .underlined{position:relative;display:inline-block}
+  h1 .underlined::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:1px;background:hsl(60 9% 96% / .7)}
+
+  .col-sub{grid-column:1 / -1;margin-top:8px}
+  @media (min-width:768px){.col-sub{grid-column:1 / span 5;margin-top:40px}}
+  .sub{max-width:40ch;font-size:15px;line-height:1.6;color:var(--fg-muted)}
+  @media (min-width:768px){.sub{font-size:16px}}
+
+  /* Asides à direita */
+  .aside{display:none}
+  @media (min-width:768px){
+    .aside{display:flex;grid-column:10 / span 3;justify-content:flex-end;align-items:flex-start}
+    .aside-1{grid-row:1;align-self:start;margin-top:8px}
+    .aside-2{grid-row:2;align-self:center}
+  }
+  .aside-inner{display:flex;align-items:flex-start;gap:12px;text-align:right}
+  .aside-inner .label{font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--fg-faint)}
+  .aside-inner .num{color:var(--fg);font-size:28px;font-weight:600;letter-spacing:-.03em;line-height:1;text-transform:none;font-variant-numeric:tabular-nums}
+  .aside-inner .desc{margin-top:8px}
+  .aside-inner .bar{margin-top:4px;height:1px;width:24px;background:var(--hairline-strong)}
+
+  /* Faixa inferior */
+  .stripe{position:relative;z-index:10;border-top:1px solid var(--hairline)}
+  .stripe-inner{display:flex;flex-direction:column;gap:32px;padding:32px 0}
+  @media (min-width:768px){.stripe-inner{flex-direction:row;align-items:center;justify-content:space-between}}
+  .micro{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;font-size:12px;color:var(--fg-muted)}
+  .micro .item{display:flex;align-items:center;gap:8px}
+  .micro .bullet{display:inline-block;width:4px;height:4px;border-radius:999px;background:hsl(60 9% 96% / .7)}
+  .micro .slash{display:none;color:hsl(60 4% 52% / .4)}
+  @media (min-width:768px){.micro .slash{display:inline}}
+  .micro .live{position:relative;display:inline-flex;width:6px;height:6px}
+  .micro .live::before{content:"";position:absolute;inset:0;border-radius:999px;background:var(--pulse);animation:pulse 2.4s ease-out infinite}
+  .micro .live::after{content:"";position:relative;display:inline-block;width:6px;height:6px;border-radius:999px;background:var(--pulse)}
+
+  .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+  .btn{display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:3px;font-size:13px;font-weight:500;transition:all .2s ease;cursor:pointer}
+  .btn-secondary{border:1px solid var(--hairline);color:var(--fg);background:transparent}
+  .btn-secondary:hover{border-color:var(--hairline-strong)}
+  .btn-primary{background:var(--fg);color:var(--bg);gap:10px}
+  .btn-primary:hover{background:var(--accent-warm)}
+  .btn-primary .arrow{display:inline-block;transition:transform .2s ease}
+  .btn-primary:hover .arrow{transform:translateX(4px)}
+
+  /* Footer */
+  footer{position:relative;z-index:10}
+  .footer-inner{display:flex;align-items:center;justify-content:space-between;padding:20px 0;font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--fg-faint)}
+  .footer-inner .num{font-variant-numeric:tabular-nums}
+
+  /* Animações */
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .fade-in{animation:fadeIn .8s ease both}
+  @keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+  @media (prefers-reduced-motion: reduce){.fade-in{animation:none}.micro .live::before{animation:none}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="art">
+    <canvas id="rings" class="art-canvas" aria-hidden="true"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="left-gradient" aria-hidden="true"></div>
+  </div>
+
+  <header>
+    <div class="container header-inner">
+      <div class="brand"><span class="dot" aria-hidden="true"></span>Pyflow</div>
+      <div class="meta">
+        <span>Turma 07</span>
+        <span class="sep" aria-hidden="true"></span>
+        <span>Inscrições abertas</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="container grid">
+      <div class="col-headline fade-in">
+        <div class="eyebrow"><span class="line" aria-hidden="true"></span><span>Curso · Python &amp; IA</span></div>
+        <h1>
+          Aprenda <em>Python</em><br>
+          do zero<br>
+          <span class="soft">e construa com </span><span class="underlined">IA.</span>
+        </h1>
+      </div>
+
+      <div class="col-sub fade-in">
+        <p class="sub">O curso mais prático do Brasil para quem quer entrar em tecnologia sem enrolação.</p>
+      </div>
+
+      <aside class="aside aside-1 fade-in">
+        <div class="aside-inner">
+          <div class="label">
+            <div class="num">+40h</div>
+            <div class="desc">conteúdo direto<br>ao ponto</div>
+          </div>
+          <span class="bar" aria-hidden="true"></span>
+        </div>
+      </aside>
+
+      <aside class="aside aside-2 fade-in">
+        <div class="aside-inner">
+          <div class="label">
+            <div class="num">20k+</div>
+            <div class="desc">comunidade<br>de alunos</div>
+          </div>
+          <span class="bar" aria-hidden="true"></span>
+        </div>
+      </aside>
+    </div>
+
+    <div class="stripe">
+      <div class="container stripe-inner">
+        <div class="micro">
+          <span class="item"><span class="bullet" aria-hidden="true"></span>Projetos com IA desde o módulo 1</span>
+          <span class="slash" aria-hidden="true">/</span>
+          <span class="item"><span class="bullet" aria-hidden="true"></span>Certificado reconhecido</span>
+          <span class="slash" aria-hidden="true">/</span>
+          <span class="item"><span class="live" aria-hidden="true"></span>Vagas limitadas</span>
+        </div>
+        <div class="ctas">
+          <a href="#aprender" class="btn btn-secondary">Ver o que vou aprender</a>
+          <a href="#comecar" class="btn btn-primary">Quero começar agora <span class="arrow" aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© Pyflow</span>
+      <span class="num">MMXXV</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const canvas = document.getElementById('rings');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let width=0,height=0,dpr=Math.min(window.devicePixelRatio||1,1.5),cx=0,cy=0;
+  let running=true,visible=true;
+  const mouse={x:-9999,y:-9999,active:false};
+
+  const PHRASE = "PYTHON · IA · APRENDER · CONSTRUIR · MODELOS · DADOS · AGENTES · ";
+  const CHARS = Array.from(new Set(PHRASE.split(""))).filter(c=>c!==" ");
+  let rings=[];
+  const glyphCache=new Map();
+
+  function getGlyph(ch,size,weight){
+    const key=ch+'|'+size+'|'+weight;
+    let g=glyphCache.get(key);
+    if(g) return g;
+    const pad=2;
+    const w=Math.ceil(size*0.9)+pad*2;
+    const h=Math.ceil(size*1.2)+pad*2;
+    const c=document.createElement('canvas');
+    c.width=Math.ceil(w*dpr); c.height=Math.ceil(h*dpr);
+    const gx=c.getContext('2d');
+    gx.scale(dpr,dpr);
+    gx.font=weight+' '+size+'px "Inter", system-ui, sans-serif';
+    gx.textBaseline='middle'; gx.textAlign='center';
+    gx.fillStyle='#ffffff';
+    gx.fillText(ch,w/2,h/2);
+    g={canvas:c,w:w,h:h};
+    glyphCache.set(key,g);
+    return g;
+  }
+
+  function build(){
+    const rect=canvas.getBoundingClientRect();
+    width=rect.width; height=rect.height;
+    dpr=Math.min(window.devicePixelRatio||1,1.5);
+    canvas.width=Math.floor(width*dpr); canvas.height=Math.floor(height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    cx=width*0.66; cy=height*0.5;
+    const max=Math.hypot(width,height)*0.6;
+    const step=64;
+    const count=Math.min(8,Math.floor(max/step));
+    rings=[];
+    for(let i=0;i<count;i++){
+      const dir=i%2===0?1:-1;
+      rings.push({
+        radius:80+i*step,
+        speed:dir*(0.00018+(i%3)*0.00006),
+        size:12+((i*1.3)%3),
+        offset:Math.random()*Math.PI*2,
+        opacity:Math.max(0.05,0.3-i*0.012),
+        weight:i%5===0?'600':'400'
+      });
+    }
+    glyphCache.clear();
+    for(const r of rings) for(const ch of CHARS) getGlyph(ch,Math.round(r.size),r.weight);
+  }
+  build();
+  window.addEventListener('resize',build);
+
+  let pendingMouse=null,mouseRaf=false;
+  window.addEventListener('mousemove',function(e){
+    const rect=canvas.getBoundingClientRect();
+    pendingMouse={x:e.clientX-rect.left,y:e.clientY-rect.top};
+    if(!mouseRaf){
+      mouseRaf=true;
+      requestAnimationFrame(function(){
+        if(pendingMouse){mouse.x=pendingMouse.x;mouse.y=pendingMouse.y;mouse.active=true;}
+        mouseRaf=false;
+      });
+    }
+  },{passive:true});
+  canvas.addEventListener('mouseleave',function(){mouse.active=false;mouse.x=-9999;mouse.y=-9999;});
+
+  document.addEventListener('visibilitychange',function(){
+    running=!document.hidden && visible;
+    if(running && !rafId){rafId=requestAnimationFrame(tick);}
+  });
+  const io=new IntersectionObserver(function(entries){
+    visible=entries[0]&&entries[0].isIntersecting;
+    running=visible && !document.hidden;
+    if(running && !rafId){rafId=requestAnimationFrame(tick);}
+  },{threshold:0});
+  io.observe(canvas);
+
+  function drawRing(ring,t){
+    const mx=mouse.x,my=mouse.y,active=mouse.active;
+    const INFLUENCE=220, INF2=INFLUENCE*INFLUENCE;
+    const perimeter=2*Math.PI*ring.radius;
+    const charWidth=ring.size*0.95;
+    const total=Math.max(20,Math.floor(perimeter/charWidth));
+    const angleStep=(Math.PI*2)/total;
+    const baseAngle=ring.offset+t*ring.speed*1000;
+    const sizeR=Math.round(ring.size);
+
+    for(let i=0;i<total;i++){
+      const ch=PHRASE[i%PHRASE.length];
+      if(ch===" ") continue;
+      const a=baseAngle+i*angleStep;
+      let x=cx+Math.cos(a)*ring.radius;
+      let y=cy+Math.sin(a)*ring.radius;
+      let scale=1,alpha=ring.opacity,warm=false;
+      if(active){
+        const dx=x-mx,dy=y-my,d2=dx*dx+dy*dy;
+        if(d2<INF2){
+          const d=Math.sqrt(d2)||1, k=1-d/INFLUENCE;
+          x+=(dx/d)*(k*24); y+=(dy/d)*(k*24);
+          scale=1+k*0.8; alpha=Math.min(0.95,ring.opacity+k*0.65); warm=k>0.55;
+        }
+      }
+      const g=getGlyph(ch,sizeR,ring.weight);
+      ctx.globalAlpha=alpha;
+      ctx.save();
+      ctx.translate(x,y);
+      ctx.rotate(a+Math.PI/2);
+      if(scale!==1) ctx.scale(scale,scale);
+      ctx.drawImage(g.canvas,-g.w/2,-g.h/2,g.w,g.h);
+      if(warm){
+        ctx.globalCompositeOperation='source-atop';
+        ctx.fillStyle='hsl(45, 30%, 88%)';
+        ctx.globalAlpha=alpha*0.5;
+        ctx.fillRect(-g.w/2,-g.h/2,g.w,g.h);
+      }
+      ctx.restore();
+    }
+    ctx.globalAlpha=1;
+  }
+
+  let t=0,lastTime=performance.now(),rafId=null;
+  const FRAME_MS=1000/30;
+  function tick(now){
+    rafId=null;
+    if(!running) return;
+    const cur=now||performance.now();
+    const elapsed=cur-lastTime;
+    if(elapsed<FRAME_MS){rafId=requestAnimationFrame(tick);return;}
+    lastTime=cur-(elapsed%FRAME_MS);
+    if(!reduceMotion) t+=0.016;
+    ctx.clearRect(0,0,width,height);
+    ctx.fillStyle='hsla(45, 30%, 88%, 0.9)';
+    ctx.beginPath(); ctx.arc(cx,cy,2.5,0,Math.PI*2); ctx.fill();
+    for(const r of rings) drawRing(r,t);
+    rafId=requestAnimationFrame(tick);
+  }
+  rafId=requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

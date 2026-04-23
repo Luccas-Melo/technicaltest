@@ -1,0 +1,13 @@
+{
+  "name": "positivus-landing",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build-css": "tailwindcss -i src/input.css -o css/tailwind.css --minify"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.5"
+  }
+}
