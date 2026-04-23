@@ -412,6 +412,10 @@
     transition: gap 0.55s cubic-bezier(0.22, 1, 0.36, 1), color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.case-studies-link .arrow-icon {
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 .case-studies-link:hover {
     gap: 0.9rem;
     text-decoration: none;
